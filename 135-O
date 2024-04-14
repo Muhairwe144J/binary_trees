@@ -1,0 +1,52 @@
+#include "binary_trees.h"
+
+/**
+ * binary_tree_levelorder_successor - Finds the level-order successor of a node.
+ * @root: A pointer to the root node of the tree.
+ * @node: A pointer to the node to find the successor for.
+ *
+ * Return: A pointer to the level-order successor node, or NULL if none.
+ */
+binary_tree_t *binary_tree_levelorder_successor(binary_tree_t *root, binary_tree_t *node)
+{
+    if (!root || !node)
+        return NULL;
+
+    if (root == node)
+        return NULL;
+
+    queue_t *queue = NULL;
+
+    queue_push(&queue, root);
+
+    while (!queue_is_empty(queue))
+    {
+        binary_tree_t *current = queue_pop(&queue);
+
+        if (current->left)
+        {
+            if (current->left == node)
+            {
+                if (!queue_is_empty(queue))
+                    return queue->data;
+                else
+                    return NULL;
+            }
+            queue_push(&queue, current->left);
+        }
+
+        if (current->right)
+        {
+            if (current->right == node)
+            {
+                if (!queue_is_empty(queue))
+                    return queue->data;
+                else
+                    return NULL;
+            }
+            queue_push(&queue, current->right);
+        }
+    }
+
+    return NULL;
+}
